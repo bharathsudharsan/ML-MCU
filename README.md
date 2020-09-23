@@ -7,7 +7,7 @@
 
 **Optimized One-Versus-One (Opt-OVO):** To the best of our knowledge, this is the first novel algorithm to enable multi-class classifiers training on MCUs. Our Opt-OVO archives reduced computation by identifying and removing base classifiers that lack significant contributions to the overall multi-class classification result.
 
-**Datasets for onboard training:** All the listed datasets are already inside the algorithm folders. The users have to uncomment their dataset of choice (header file at the beginning of the main algorithm program) to use it when training on MCUs.
+**Datasets for onboard training:** We converted all the listed datasets into MCU executable files and placed them inside the algorithm folders. The users have to uncomment their dataset of choice (header file at the beginning of the main algorithm program) to use it when training on MCUs.
 
 1. [Iris Flowers](https://archive.ics.uci.edu/ml/datasets/iris "Google's Homepage"):
 2. [Heart Disease](https://archive.ics.uci.edu/ml/datasets/heart+Disease):
