@@ -9,4 +9,11 @@
 
 **Datasets for onboard training:** All the listed datasets are already inside the algorithm folders. The users have to uncomment their dataset of choice (header file at the beginning of the main algorithm program) to use it when training on MCUs.
 
+1. [](https://www.google.com "Google's Homepage")
+2.
+3.
+4.
+5.
+6.[Australian Sign Language signs](https://archive.ics.uci.edu/ml/datasets/Australian+Sign+Language+signs+(High+Quality "Dataset Homepage")
+
 **Tip:** Before using the implementation of our algorithms for onboard training, we recommend users to use better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
