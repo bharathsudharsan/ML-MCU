@@ -13,7 +13,7 @@
 2. [Heart Disease](https://archive.ics.uci.edu/ml/datasets/heart+Disease):
 3. [Breast Cancer](https://www.kaggle.com/uciml/breast-cancer-wisconsin-data):
 4. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/):
-5. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/) in multi-class setting:
+5. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/) in a multi-class setting:
 6. [Australian Sign Language signs](https://archive.ics.uci.edu/ml/datasets/Australian+Sign+Language+signs+(High+Quality)):
 
 **Tip:** Before using the implementation of our algorithms for onboard training, for the first time, we recommend users to use better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
