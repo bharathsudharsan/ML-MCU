@@ -1,11 +1,15 @@
-// To eliminate the problems with min/max for ESP32
-#define max(a, b) (a) > (b) ? (a) : (b)
-#define min(a, b) (a) < (b) ? (a) : (b)
 #include <string.h>
-
+#ifdef ESP32
+#define min(a, b) (a) < (b) ? (a) : (b)
+#define max(a, b) (a) > (b) ? (a) : (b)
+#define abs(x) ((x) > 0 ? (x) : -(x))
+#endif
 // Uncomment the dataset of choice to use it when training on MCUs.
-//#include"Aus_sign_lang.h"
-#include"Multiclass_Digits.h"
+#include "Iris_flowers.h"
+//#include "Heart_disease.h"
+//#include "Digits_binary.h"
+//#include "Breast_cancer.h"
+
 
 namespace ML_MCU {
     namespace ML {
@@ -41,11 +45,7 @@ namespace ML_MCU {
             unsigned int f_p;
             unsigned int f_n;    };}}
 
-#ifdef ESP32
-#define min(a, b) (a) < (b) ? (a) : (b)
-#define max(a, b) (a) > (b) ? (a) : (b)
-#define abs(x) ((x) > 0 ? (x) : -(x))
-#endif
+
 
 namespace ML_MCU {
     namespace ML {
@@ -59,8 +59,7 @@ namespace ML_MCU {
 
             return sum;
         } } }
-
-
+        
 namespace ML_MCU {
     namespace ML {
         template<unsigned int num_features>
@@ -144,127 +143,59 @@ namespace ML_MCU {
                 float momentum;
             } parameters;  }; } }
 
+#define VERBOSE
+
 using namespace ML_MCU::ML;
-int temp, temp1 = 0;
 
-namespace ML_MCU {
-    namespace ML {
-
-        template<class Classifier, int numFeatures, int numClasses>
-        class OneVsOne : Base_classifier<numFeatures> {
-        public:
-
-            OneVsOne() {
-                for (int i = 0; i < numClassifiers(); i++)
-                    classifiers_var[i] = new Classifier();  }
-
-            
-            void fitModel(float x[numFeatures], int y) {
-                int k = 0;
-
-                for (int i = 0; i < numClasses - 1; i++) {
-                    for (int j = i + 1; j < numClasses; j++) {
-                        if (i == y || j == y) {
-                            classifiers_var[k]->fitModel(x, y == i ? 1 : 0);
-                        }
-                        k++;  }  }  }
-
-            int predict(float x[numFeatures]) {
-                int k = 0;
-                int votes[numClasses] = {0};
-
-                for (int i = 0; i < numClasses - 1; i++) {
-                    for (int j = i + 1; j < numClasses; j++) {
-                        int y_pred = classifiers_var[k]->predict(x);
-                        votes[y_pred > 0 ? i : j] += 1;
-                        k++;     } }
-
-                // pick class with most votes
-                int maxVotes = -1;
-                int classIdx = -1;
-
-                for (int i = 0; i < numClasses; i++) {
-                    if (votes[i] > maxVotes) {
-                        maxVotes = votes[i];
-                        classIdx = i;   } }
-                return classIdx;  }
-
-            void set(const char *param, float value) {
-                for (int i = 0; i < numClassifiers(); i++)
-                    classifiers_var[i]->set(param, value);  }
-
-        protected:
-            Classifier *classifiers_var[numClasses * (numClasses - 1) / 2];
-            int numClassifiers() {
-                return numClasses * (numClasses - 1) / 2; } }; } }
+float m = 0;
 
 
-void setup() 
-{
+void setup() {
     Serial.begin(115200);
     delay(5000);
 }
 
 
-void loop() 
-{
- 
+void loop() {
     int trainSamples;
     int retrain_cycles;
+    SGD<FEATURES_DIM> clf;
     Evaluation_function eval;
-    OneVsOne<SGD<FEATURES_DIM>, FEATURES_DIM, NUM_CLASSES> clf;
-
-    clf.set("alpha", 1); // set the configuration of the Opt-SGD bases binary classifiers. alpha and momentum refer to Opt-SGD
-    clf.set("momentum", 0.7);
-    clf.set("C", 0.1);
-
-    trainSamples = readSerialNumber("Enter a train set size. Max", TRAIN_SAMPLES - 2);
+    clf.momentum(m);
+    trainSamples = readSerialNumber("Enter a train set size. Max", DATASET_SIZE - 2);
     retrain_cycles = readSerialNumber("Enter the times to cycly over the train set. Max", 100);
 
     if (trainSamples == 0 || retrain_cycles == 0)
         return;
 
-        
-    Serial.print("Starting to train using the entered train set size");
-    time_t start = millis();
-    // Repeating the training a few times over the same dataset increases performance. Do not re-train too much the accuracy might drop
     for (uint16_t cycle = 0; cycle < retrain_cycles; cycle++)
         for (uint16_t i = 0; i < trainSamples; i++)
-        clf.fitModel(X_train[i % TRAIN_SAMPLES], y_train[i % TRAIN_SAMPLES]);
-    
+            clf.fitModel(X[i], y[i]);
+            
+    for (uint16_t i = trainSamples; i < DATASET_SIZE; i++) {
+        int predicted = clf.predict(X[i]);
+        int actual = y[i];
 
-    Serial.print("It took ");
-    temp1 = millis() - start;
-    Serial.print(temp1);
-    Serial.print("ms to train ");
-    Serial.println();
-    
-    // Predict using onboard trained classifier
-    start = millis();
-    for (int i = 0; i < TEST_SAMPLES; i++) 
-    {
-        int y_true = y_test[i];
-        int y_pred = clf.predict(X_test[i]);
+        eval.truevsfalse(actual, predicted);
 
-        Serial.print("Predicted ");
-        Serial.print(y_pred);
+#if defined(VERBOSE)
+        Serial.print(predicted == actual ? "[ OK]" : "[ERR]");
+        Serial.print(" Predicted ");
+        Serial.print(predicted);
         Serial.print(" vs ");
-        Serial.println(y_true);
-        eval.truevsfalse(y_true, y_pred);
+        Serial.print(actual);
+        Serial.println(" actual");
+#endif
     }
-    Serial.print("It took ");
-    temp = millis() - start;
-    Serial.print(temp);
-    Serial.print("ms for infering using the full test set");
-    Serial.println();
-    Serial.print("Accuracy = ");
-    Serial.print(eval.accuracy() * 100);
-    Serial.print(" out of ");
+
+    Serial.print("Accuracy: ");
+    Serial.print(100 * eval.accuracy());
+    Serial.print("% out of ");
     Serial.print(eval.support());
     Serial.println(" samples");
-    delay(1000);
-}
 
+    m += 0.5;
+}
 int readSerialNumber(String prompt, int maxAllowed) {
     Serial.print(prompt);
     Serial.print(" (");
@@ -272,7 +203,10 @@ int readSerialNumber(String prompt, int maxAllowed) {
     Serial.print(" max) ");
 
     while (!Serial.available()) delay(1);
+
     int n = Serial.readStringUntil('\n').toInt();
+
     Serial.println(n);
+
     return max(0, min(n, maxAllowed));
 }
