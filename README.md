@@ -9,10 +9,11 @@
 
 **Datasets for onboard training:** We converted all the listed datasets into MCU executable files and placed them inside the algorithm folders. The datasets 1, 2, 3 and 4 are used for training binary classifiers on MCUs using Opt-SGD. The datasets 5 and 6 are used for training multi-class classifiers on MCUs using Opt-OVO. The users have to uncomment their dataset of choice (header file at the beginning of the main algorithm program) to use it when training on MCUs.
 
-1. [Iris Flowers](https://archive.ics.uci.edu/ml/datasets/iris "Google's Homepage"):
+1. [Iris Flowers](https://archive.ics.uci.edu/ml/datasets/iris "Google's Homepage"): We extract 50 positive and 100 negative samples of Iris Setosa. Then using Opt-SGD, we train a binary classifier to distinguish Iris Setosa from other flowers based on the input features.
 2. [Heart Disease](https://archive.ics.uci.edu/ml/datasets/heart+Disease):
 3. [Breast Cancer](https://www.kaggle.com/uciml/breast-cancer-wisconsin-data):
 4. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/):
+
 5. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/) in a multi-class setting:
 6. [Australian Sign Language signs](https://archive.ics.uci.edu/ml/datasets/Australian+Sign+Language+signs+(High+Quality)):
 
