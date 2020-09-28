@@ -217,9 +217,9 @@ void loop()
     clf.set("alpha", 1); // set the configuration of the Opt-SGD bases binary classifiers. alpha and momentum refer to Opt-SGD
     clf.set("momentum", 0.7);
     clf.set("C", 0.1);
-
-    trainSamples = readSerialNumber("Enter a train set size. Max", TRAIN_SAMPLES - 2);
-    retrain_cycles = readSerialNumber("Enter the times to cycly over the train set. Max", 100);
+    Serial.println();   
+    trainSamples = readSerialNumber("Enter a train set size ", TRAIN_SAMPLES - 2);
+    retrain_cycles = readSerialNumber("Enter the times to cycly over the train set", 100);
 
     if (trainSamples == 0 || retrain_cycles == 0)
         return;
@@ -232,7 +232,7 @@ void loop()
         for (uint16_t i = 0; i < trainSamples; i++)
         clf.fitModel(X_train[i % TRAIN_SAMPLES], y_train[i % TRAIN_SAMPLES]);
     
-
+    Serial.println();   
     Serial.print("It took ");
     temp1 = millis() - start;
     Serial.print(temp1);
@@ -265,14 +265,13 @@ void loop()
     delay(1000);
 }
 
-int readSerialNumber(String prompt, int maxAllowed) {
-    Serial.print(prompt);
+int readSerialNumber(String str_read, int max_allowed_size) {
+    Serial.print(str_read);
     Serial.print(" (");
-    Serial.print(maxAllowed);
+    Serial.print(max_allowed_size);
     Serial.print(" max) ");
-
     while (!Serial.available()) delay(1);
     int n = Serial.readStringUntil('\n').toInt();
     Serial.println(n);
-    return max(0, min(n, maxAllowed));
+    return max(0, min(n, max_allowed_size));
 }

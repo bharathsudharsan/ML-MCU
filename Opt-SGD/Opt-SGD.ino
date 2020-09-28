@@ -148,7 +148,7 @@ namespace ML_MCU {
 using namespace ML_MCU::ML;
 
 float m = 0;
-
+int temp, temp1 = 0;
 
 void setup() {
     Serial.begin(115200);
@@ -162,16 +162,29 @@ void loop() {
     SGD<FEATURES_DIM> clf;
     Evaluation_function eval;
     clf.momentum(m);
-    trainSamples = readSerialNumber("Enter a train set size. Max", DATASET_SIZE - 2);
-    retrain_cycles = readSerialNumber("Enter the times to cycly over the train set. Max", 100);
+    Serial.println();   
+    trainSamples = readSerialNumber("Enter a train set size", DATASET_SIZE - 2);
+    retrain_cycles = readSerialNumber("Enter the times to cycly over the train set", 100);
 
     if (trainSamples == 0 || retrain_cycles == 0)
         return;
-
+        
+    Serial.print("Starting to train using the entered train set size");
+    time_t start = millis();
+    // Repeating the training a few times over the same dataset increases performance. Do not re-train too much the accuracy might drop
     for (uint16_t cycle = 0; cycle < retrain_cycles; cycle++)
         for (uint16_t i = 0; i < trainSamples; i++)
             clf.fitModel(X[i], y[i]);
             
+    Serial.println();           
+    Serial.print("It took ");
+    temp1 = millis() - start;
+    Serial.print(temp1);
+    Serial.print("ms to train ");
+    Serial.println();      
+     
+    // Predict using onboard trained classifier
+    start = millis();
     for (uint16_t i = trainSamples; i < DATASET_SIZE; i++) {
         int predicted = clf.predict(X[i]);
         int actual = y[i];
@@ -179,7 +192,7 @@ void loop() {
         eval.truevsfalse(actual, predicted);
 
 #if defined(VERBOSE)
-        Serial.print(predicted == actual ? "[ OK]" : "[ERR]");
+        Serial.print(predicted == actual ? "[CORRECT]" : "[  WRONG]");
         Serial.print(" Predicted ");
         Serial.print(predicted);
         Serial.print(" vs ");
@@ -187,7 +200,11 @@ void loop() {
         Serial.println(" actual");
 #endif
     }
-
+    Serial.print("It took ");
+    temp = millis() - start;
+    Serial.print(temp);
+    Serial.print("ms for infering using the full test set");
+    Serial.println();
     Serial.print("Accuracy: ");
     Serial.print(100 * eval.accuracy());
     Serial.print("% out of ");
@@ -196,17 +213,13 @@ void loop() {
 
     m += 0.5;
 }
-int readSerialNumber(String prompt, int maxAllowed) {
-    Serial.print(prompt);
+int readSerialNumber(String str_read, int max_allowed_size) {
+    Serial.print(str_read);
     Serial.print(" (");
-    Serial.print(maxAllowed);
+    Serial.print(max_allowed_size);
     Serial.print(" max) ");
-
     while (!Serial.available()) delay(1);
-
     int n = Serial.readStringUntil('\n').toInt();
-
     Serial.println(n);
-
-    return max(0, min(n, maxAllowed));
+    return max(0, min(n, max_allowed_size));
 }
