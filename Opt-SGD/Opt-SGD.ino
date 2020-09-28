@@ -1,26 +1,22 @@
-#include <string.h>
+// To eliminate the problems with min/max for ESP32
 #ifdef ESP32
 #define min(a, b) (a) < (b) ? (a) : (b)
 #define max(a, b) (a) > (b) ? (a) : (b)
 #define abs(x) ((x) > 0 ? (x) : -(x))
 #endif
+#include <string.h>
+
 // Uncomment the dataset of choice to use it when training on MCUs.
 #include "Iris_flowers.h"
 //#include "Heart_disease.h"
 //#include "Digits_binary.h"
 //#include "Breast_cancer.h"
 
-
-namespace ML_MCU {
-    namespace ML {
 // Function to evaluate the multi-class classifiers.
         class Evaluation_function {
         public:
             Evaluation_function() :
-                    t_p(0),
-                    t_n(0),
-                    f_p(0),
-                    f_n(0) {
+                    t_p(0), t_n(0), f_p(0), f_n(0) {
             }
 
             void truevsfalse(int actual, int predicted) {
@@ -35,33 +31,19 @@ namespace ML_MCU {
 
             float accuracy() {
                 return (1.0f * t_p + t_n) / support();   }
-
             unsigned int support() {
                 return t_p + t_n + f_p + f_n;    }
-
         protected:
-            unsigned int t_p;
-            unsigned int t_n;
-            unsigned int f_p;
-            unsigned int f_n;    };}}
-
-
-
-namespace ML_MCU {
-    namespace ML {
+            unsigned int t_p; unsigned int t_n;   unsigned int f_p; unsigned int f_n;    };
 
         template<unsigned int size>
         float dot(float x[size], float w[size]) {
             float sum = 0;
-
             for (unsigned int i = 0; i < size; i++)
                 sum += x[i] * w[i];
-
             return sum;
-        } } }
-        
-namespace ML_MCU {
-    namespace ML {
+        }
+
         template<unsigned int num_features>
         class Base_classifier {
         public:
@@ -75,10 +57,7 @@ namespace ML_MCU {
             void setParam(const char *param_name, const char* target_name, T *param, T value) {
                 if (strcmp(param_name, target_name) == 0)
                     *param = value;
-            } }; } }
-
-namespace ML_MCU {
-    namespace ML {
+            } }; 
 
         template<unsigned int num_features>
         class SGD : public Base_classifier<num_features> {
@@ -90,7 +69,6 @@ namespace ML_MCU {
 
                 for (unsigned int i = 0; i < num_features + 1; i++)
                     model_weights[i] = weights_updates[i] = 0;   }
-
 
             void set(const char *param, float value) {
                 this->setParam(param, "alpha", &model_alpha, value);
@@ -115,7 +93,6 @@ namespace ML_MCU {
                 if (parameters.normalizeAlpha)
                     alpha /= 1 + model_alpha * dot<num_features>(x, x);
 
-                // compute and apply updates
                 weights_updates[0] = (parameters.momentum * weights_updates[0]) - (alpha * error);
                 model_weights[0] += weights_updates[0];
 
@@ -141,27 +118,25 @@ namespace ML_MCU {
             struct {
                 bool normalizeAlpha;
                 float momentum;
-            } parameters;  }; } }
-
+            } parameters;  }; 
+            
 #define VERBOSE
-
-using namespace ML_MCU::ML;
-
 float m = 0;
 int temp, temp1 = 0;
 
-void setup() {
+void setup() 
+{
     Serial.begin(115200);
     delay(5000);
 }
 
-
-void loop() {
+void loop() 
+{
     int trainSamples;
     int retrain_cycles;
-    SGD<FEATURES_DIM> clf;
+    SGD<FEATURES_DIM> call_fn;
     Evaluation_function eval;
-    clf.momentum(m);
+    call_fn.momentum(m);
     Serial.println();   
     trainSamples = readSerialNumber("Enter a train set size", DATASET_SIZE - 2);
     retrain_cycles = readSerialNumber("Enter the times to cycly over the train set", 100);
@@ -174,7 +149,7 @@ void loop() {
     // Repeating the training a few times over the same dataset increases performance. Do not re-train too much the accuracy might drop
     for (uint16_t cycle = 0; cycle < retrain_cycles; cycle++)
         for (uint16_t i = 0; i < trainSamples; i++)
-            clf.fitModel(X[i], y[i]);
+            call_fn.fitModel(X[i], y[i]);
             
     Serial.println();           
     Serial.print("It took ");
@@ -186,13 +161,12 @@ void loop() {
     // Predict using onboard trained classifier
     start = millis();
     for (uint16_t i = trainSamples; i < DATASET_SIZE; i++) {
-        int predicted = clf.predict(X[i]);
+        int predicted = call_fn.predict(X[i]);
         int actual = y[i];
 
         eval.truevsfalse(actual, predicted);
 
 #if defined(VERBOSE)
-        Serial.print(predicted == actual ? "[CORRECT]" : "[  WRONG]");
         Serial.print(" Predicted ");
         Serial.print(predicted);
         Serial.print(" vs ");
@@ -210,10 +184,10 @@ void loop() {
     Serial.print("% out of ");
     Serial.print(eval.support());
     Serial.println(" samples");
-
     m += 0.5;
 }
-int readSerialNumber(String str_read, int max_allowed_size) {
+int readSerialNumber(String str_read, int max_allowed_size) 
+{
     Serial.print(str_read);
     Serial.print(" (");
     Serial.print(max_allowed_size);

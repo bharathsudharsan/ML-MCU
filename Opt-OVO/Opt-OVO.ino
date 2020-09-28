@@ -1,22 +1,20 @@
 // To eliminate the problems with min/max for ESP32
-#define max(a, b) (a) > (b) ? (a) : (b)
+#ifdef ESP32
 #define min(a, b) (a) < (b) ? (a) : (b)
+#define max(a, b) (a) > (b) ? (a) : (b)
+#define abs(x) ((x) > 0 ? (x) : -(x))
+#endif
 #include <string.h>
 
 // Uncomment the dataset of choice to use it when training on MCUs.
 //#include"Aus_sign_lang.h"
 #include"Multiclass_Digits.h"
 
-namespace ML_MCU {
-    namespace ML {
 // Function to evaluate the multi-class classifiers.
         class Evaluation_function {
         public:
             Evaluation_function() :
-                    t_p(0),
-                    t_n(0),
-                    f_p(0),
-                    f_n(0) {
+                    t_p(0), t_n(0), f_p(0), f_n(0) {
             }
 
             void truevsfalse(int actual, int predicted) {
@@ -36,33 +34,16 @@ namespace ML_MCU {
                 return t_p + t_n + f_p + f_n;    }
 
         protected:
-            unsigned int t_p;
-            unsigned int t_n;
-            unsigned int f_p;
-            unsigned int f_n;    };}}
-
-#ifdef ESP32
-#define min(a, b) (a) < (b) ? (a) : (b)
-#define max(a, b) (a) > (b) ? (a) : (b)
-#define abs(x) ((x) > 0 ? (x) : -(x))
-#endif
-
-namespace ML_MCU {
-    namespace ML {
+            unsigned int t_p;  unsigned int t_n;  unsigned int f_p;  unsigned int f_n;    };
 
         template<unsigned int size>
         float dot(float x[size], float w[size]) {
             float sum = 0;
-
             for (unsigned int i = 0; i < size; i++)
                 sum += x[i] * w[i];
-
             return sum;
-        } } }
+        } 
 
-
-namespace ML_MCU {
-    namespace ML {
         template<unsigned int num_features>
         class Base_classifier {
         public:
@@ -76,11 +57,8 @@ namespace ML_MCU {
             void setParam(const char *param_name, const char* target_name, T *param, T value) {
                 if (strcmp(param_name, target_name) == 0)
                     *param = value;
-            } }; } }
-
-namespace ML_MCU {
-    namespace ML {
-
+            } }; 
+            
         template<unsigned int num_features>
         class SGD : public Base_classifier<num_features> {
         public:
@@ -91,7 +69,6 @@ namespace ML_MCU {
 
                 for (unsigned int i = 0; i < num_features + 1; i++)
                     model_weights[i] = weights_updates[i] = 0;   }
-
 
             void set(const char *param, float value) {
                 this->setParam(param, "alpha", &model_alpha, value);
@@ -116,7 +93,6 @@ namespace ML_MCU {
                 if (parameters.normalizeAlpha)
                     alpha /= 1 + model_alpha * dot<num_features>(x, x);
 
-                // compute and apply updates
                 weights_updates[0] = (parameters.momentum * weights_updates[0]) - (alpha * error);
                 model_weights[0] += weights_updates[0];
 
@@ -132,7 +108,6 @@ namespace ML_MCU {
 
                 for (unsigned int i = 0; i < num_features; i++)
                     xx[i + 1] = x[i];
-
                 return (1.0f / (1 + exp(-dot<num_features+1>(x, model_weights)))) > 0.5 ? 1 : 0;   }
 
         protected:
@@ -142,13 +117,7 @@ namespace ML_MCU {
             struct {
                 bool normalizeAlpha;
                 float momentum;
-            } parameters;  }; } }
-
-using namespace ML_MCU::ML;
-int temp, temp1 = 0;
-
-namespace ML_MCU {
-    namespace ML {
+            } parameters;  }; 
 
         template<class Classifier, int numFeatures, int numClasses>
         class OneVsOne : Base_classifier<numFeatures> {
@@ -179,7 +148,6 @@ namespace ML_MCU {
                         votes[y_pred > 0 ? i : j] += 1;
                         k++;     } }
 
-                // pick class with most votes
                 int maxVotes = -1;
                 int classIdx = -1;
 
@@ -196,41 +164,38 @@ namespace ML_MCU {
         protected:
             Classifier *classifiers_var[numClasses * (numClasses - 1) / 2];
             int numClassifiers() {
-                return numClasses * (numClasses - 1) / 2; } }; } }
+                return numClasses * (numClasses - 1) / 2; } }; 
 
-
+int temp, temp1 = 0;
 void setup() 
 {
     Serial.begin(115200);
     delay(5000);
 }
 
-
 void loop() 
 {
- 
     int trainSamples;
     int retrain_cycles;
     Evaluation_function eval;
-    OneVsOne<SGD<FEATURES_DIM>, FEATURES_DIM, NUM_CLASSES> clf;
+    OneVsOne<SGD<FEATURES_DIM>, FEATURES_DIM, NUM_CLASSES> call_fn;
 
-    clf.set("alpha", 1); // set the configuration of the Opt-SGD bases binary classifiers. alpha and momentum refer to Opt-SGD
-    clf.set("momentum", 0.7);
-    clf.set("C", 0.1);
+    call_fn.set("alpha", 1); // Set the configuration of the Opt-SGD bases binary classifiers. alpha and momentum refer to Opt-SGD
+    call_fn.set("momentum", 0.7);
+    call_fn.set("C", 0.1);
     Serial.println();   
     trainSamples = readSerialNumber("Enter a train set size ", TRAIN_SAMPLES - 2);
     retrain_cycles = readSerialNumber("Enter the times to cycly over the train set", 100);
 
     if (trainSamples == 0 || retrain_cycles == 0)
         return;
-
-        
+    
     Serial.print("Starting to train using the entered train set size");
     time_t start = millis();
     // Repeating the training a few times over the same dataset increases performance. Do not re-train too much the accuracy might drop
     for (uint16_t cycle = 0; cycle < retrain_cycles; cycle++)
         for (uint16_t i = 0; i < trainSamples; i++)
-        clf.fitModel(X_train[i % TRAIN_SAMPLES], y_train[i % TRAIN_SAMPLES]);
+        call_fn.fitModel(X_train[i % TRAIN_SAMPLES], y_train[i % TRAIN_SAMPLES]);
     
     Serial.println();   
     Serial.print("It took ");
@@ -244,7 +209,7 @@ void loop()
     for (int i = 0; i < TEST_SAMPLES; i++) 
     {
         int y_true = y_test[i];
-        int y_pred = clf.predict(X_test[i]);
+        int y_pred = call_fn.predict(X_test[i]);
 
         Serial.print("Predicted ");
         Serial.print(y_pred);
