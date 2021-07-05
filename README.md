@@ -1,9 +1,9 @@
-# ML-MCU: Machine Learning - Microcontroller Unit
-**Overview:** We provide *ML-MCU*, a framework with our novel *Opt-SGD* and *Opt-OVO* algorithms, to enable both binary and multi-class ML classifier training directly on MCUs. Thus, ML-MCU enables billions of MCU-based IoT edge devices to self learn/train (offline) after their deployment, using live data from a wide range of IoT use-cases.
+# Multi-class Classifier Training and Real-time Inference on Arduino MCUs
+We provide *ML-MCU* (Machine Learning - Microcontroller Unit), a framework with novel *Opt-SGD* and *Opt-OVO* algorithms, to enable binary and multi-class ML classifier training directly on Arduino MCU boards. ML-MCU can be used to enable billions of MCU-based IoT edge devices to self learn/train (offline) after their deployment, using live data from a wide range of IoT use-cases.
 
-**Optimised-Stochastic Gradient Descent (Opt-SGD):** This is the binary classifier training algorithm of our framework that enables incremental binary classifier training on MCUs. *Opt-SGD* combines benefits from both Gradient Descent (GD) and Stochastic Gradient Descent (SGD) thus, inheriting the stability of GD while retaining the work-efficiency of SGD. 
+**Optimised-Stochastic Gradient Descent (Opt-SGD):** This is the binary classifier training algorithm of *ML-MCU* that enables incremental binary classifier training on MCUs. *Opt-SGD* combines benefits from both Gradient Descent (GD) and Stochastic Gradient Descent (SGD). Thus, it inherits the stability of GD while retaining the work-efficiency of SGD. 
 
-**Optimized One-Versus-One (Opt-OVO):** To the best of our knowledge, this is the first novel algorithm to enable multi-class classifiers training on MCUs. Our *Opt-OVO* archives reduced computation by identifying and removing base classifiers that lack significant contributions to the overall multi-class classification result.
+**Optimized One-Versus-One (Opt-OVO):** At the time of designing *Opt-OVO* (Nov 2020), it is the first novel algorithm to enable multi-class classifiers training on MCUs. *Opt-OVO* archives reduced computation by identifying and removing base classifiers that lack significant contributions to the overall multi-class classification result.
 
 **Datasets for onboard training:** We converted all the listed datasets into MCU executable *.h* files and placed them inside the algorithm folders. The datasets 1, 2, 3 and 4 are used for training binary classifiers on MCUs using *Opt-SGD*. The datasets 5 and 6 are used for training multi-class classifiers on MCUs using *Opt-OVO*. The users have to uncomment their dataset of choice (header file at the beginning of the main algorithm program) to use it when training on MCUs.
 
