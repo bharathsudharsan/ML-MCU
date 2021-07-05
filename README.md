@@ -59,12 +59,6 @@ We use the above figure to analyse how the training time and accuracy vary w.r.t
 
 3. In Fig b, at the individual MCU level, we show how the training time varies when the class count and train set size increase. The right side Y-axis is the MCU trained multi-class classifier accuracy. 
 
-![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_inference_results.png)
-
-1. Real-time unit inference in 11.8 ms even on the slowest MCU4.
-
-2. The fastest MCU3 was able to infer for a 50 class input in 6.2 ms.
-
-Overall, the Opt-OVO trained classifiers perform onboard unit inference for multi-class data in super real-time, within a second, across various MCUs. Complete evaluation and results analysis available in ML-MCU the paper.
+Complete evaluation and results analysis available in ML-MCU the paper.
 
 **Tip:** When first time using the *Opt-OVO* and *Opt-SGD* code for training ML models on MCUs, we recommend using better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
