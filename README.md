@@ -1,5 +1,5 @@
 # Multi-class Classifier Training and Real-time Inference on Arduino MCUs
-We provide *ML-MCU* (Machine Learning - Microcontroller Unit), a framework with novel *Opt-SGD* and *Opt-OVO* algorithms, to enable binary and multi-class ML classifier training directly on Arduino MCU boards. ML-MCU can be used to enable billions of MCU-based IoT edge devices to self learn/train (offline) after their deployment, using live data from a wide range of IoT use-cases.
+We provide *ML-MCU* (Machine Learning - Microcontroller Unit), a framework with novel *Opt-SGD* and *Opt-OVO* algorithms to enable binary and multi-class ML classifier training directly on Arduino MCU boards. *ML-MCU* can be used to enable billions of MCU-based IoT edge devices to self learn/train (offline) after their deployment, using live data from a wide range of IoT use-cases.
 
 **Optimised-Stochastic Gradient Descent (Opt-SGD):** This is the binary classifier training algorithm of *ML-MCU* that enables incremental binary classifier training on MCUs. *Opt-SGD* combines benefits from both Gradient Descent (GD) and Stochastic Gradient Descent (SGD). Thus, it inherits the stability of GD while retaining the work-efficiency of SGD. 
 
