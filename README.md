@@ -33,6 +33,6 @@ Using Arduino IDE, as required, we upload the *Opt-OVO* and *Opt-SGD* algorithm 
 
 ## Opt-OVO and Opt-SGD Algorithm Performance Evaluation
 
-![alt text]()
+![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_training_results.png)
 
 **Tip:** When first time using the *Opt-OVO* and *Opt-SGD* code for training ML models on MCUs, we recommend using better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
