@@ -33,8 +33,9 @@ Using Arduino IDE, as required, we upload the *Opt-OVO* and *Opt-SGD* algorithm 
 
 ## Opt-OVO Performance Evaluation
 
-![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_training_results.png)
+For brevity, in this repo we present only the multi-class model performance, which is results of training and inference on MCUs using *Opt-OVO*. 
 
+![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_training_results.png)
 
 
 ![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_inference_results.png)
