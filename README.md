@@ -52,7 +52,7 @@ We follow the same procedure explained earlier, starting from uploading the algo
 
 ![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_training_results.png)
 
-The following analysis is made from the above table:
+The following analysis is made from the above Figure:
 
 1. Even on the slowest MCU 4, *Opt-OVO* was able to train using a 10 class, 1476 size, 64 dimension Digits dataset in 29.6 sec and could train in 7.6 sec using the 15 class, 375 size, 22 features Australian Sign dataset. 
 
