@@ -5,6 +5,9 @@ We provide *ML-MCU* (Machine Learning - Microcontroller Unit), a framework with 
 
 **Optimized One-Versus-One (Opt-OVO):** At the time of designing *Opt-OVO* (Nov 2020), it is the first novel algorithm to enable multi-class classifiers training on MCUs. *Opt-OVO* archives reduced computation by identifying and removing base classifiers that lack significant contributions to the overall multi-class classification result.
 
+**Exciting findings** The *Opt-OVO* algorithm trained a multi-class classifier using a dataset of size 1250 and class count 50 on a $3 ESP32 board and also performed onboard unit inference for the same 50 class data in super real-time of 6.2 ms.
+
+
 ## Datasets, MCU boards for Training and Inference on MCUs
 
 ### Datasets
