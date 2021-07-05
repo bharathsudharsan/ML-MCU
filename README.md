@@ -19,4 +19,13 @@ We converted all the listed datasets into MCU executable *.h* files and placed t
 5. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/) in a multi-class setting: Contains 10 classes (digits 0 to 9). The onboard *Opt-OVO* trained multi-class classifier should distinguish digits, based on the input features.
 6. [Australian Sign Language signs](https://archive.ics.uci.edu/ml/datasets/Australian+Sign+Language+signs+(High+Quality)): Here, the class count is 50 since it contains data of 50 Auslan signs varying from *alive* to *more*. Then using *Opt-OVO*, we trained a classifier on MCUs, that distinguish Auslan signs based on the input features.
 
+### MCU Boards
+
+Using Arduino IDE, as required, we upload the *Opt-OVO* and *Opt-SGD* algorithm along with the selected/uncommented dataset on the following popular boards. After successful upload, we trained various ML classifier models (both binary and multi-class) on MCUs, performed the onboard model evaluation and inference performance evaluation of the thus trained MCU models.
+
+1. [nRF52840 Adafruit Feather](https://www.adafruit.com/product/4062): ARM Cortex-M4 @64MHz, 1MB Flash, 256KB SRAM.
+2. [STM32f103c8 Blue Pill](https://stm32-base.org/boards/STM32F103C8T6-Blue-Pill.html): ARM Cortex-M0 @72MHz, 128KB Flash, 20KB SRAM.
+3. [Generic ESP32](https://www.espressif.com/en/products/devkits): Xtensa LX6 @240MHz, 4MB Flash, 520KB SRAM.
+4. [ATSAMD21G18 Adafruit METRO](https://www.adafruit.com/product/3505): ARM Cortex-M0+ @48 MHz, 256kB Flash, 32KB SRAM. 
+
 **Tip:** When first time using the *Opt-OVO* and *Opt-SGD* code for training ML models on MCUs, we recommend using better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
