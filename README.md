@@ -31,8 +31,20 @@ Using Arduino IDE, as required, we upload the *Opt-OVO* and *Opt-SGD* algorithm 
 3. MCU3 [Generic ESP32](https://www.espressif.com/en/products/devkits): Xtensa LX6 @240MHz, 4MB Flash, 520KB SRAM.
 4. MCU4 [ATSAMD21G18 Adafruit METRO](https://www.adafruit.com/product/3505): ARM Cortex-M0+ @48 MHz, 256kB Flash, 32KB SRAM. 
 
-## Opt-OVO and Opt-SGD Algorithm Performance Evaluation
+## Opt-OVO Performance Evaluation
 
 ![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_training_results.png)
+
+
+
+![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_inference_results.png)
+
+1. Real-time unit inference in 11.8 ms, even on the slowest MCU4.
+
+2. The fastest MCU3 was able to infer for a 50 class input in 6.2 ms.
+
+Overall, it is apparent that our Opt-OVO trained classifiers perform onboard unit inference for multi-class data in super real-time, within a second, across various MCUs
+
+
 
 **Tip:** When first time using the *Opt-OVO* and *Opt-SGD* code for training ML models on MCUs, we recommend using better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
