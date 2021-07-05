@@ -37,6 +37,9 @@ Using Arduino IDE, as required, we upload the *Opt-OVO* and *Opt-SGD* algorithm 
 
 We uploaded the *Opt-SGD* algorithm's C++ implementation on all boards. We then power on each board, connect them to a PC via the serial port to feed the training data, receive training time and classification accuracy from MCUs. The first 70% of data was used for training, the remaining 30% data for evaluation. When we instruct the board to train, *Opt-SGD* iteratively loads the data chunks and trains. Next, we load the test set, infer using the trained models to evaluate the MCU trained classifiers. 
 
+![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/opt-sgd_results.PNG)
+
+
 ![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_training_results.png)
 
 
