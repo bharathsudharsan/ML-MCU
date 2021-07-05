@@ -14,7 +14,7 @@ We converted all the listed datasets into MCU executable *.h* files and placed t
 1. [Iris Flowers](https://archive.ics.uci.edu/ml/datasets/iris "Google's Homepage") (4 features, 3 classes, 150 samples): Using *Opt-SGD*, we train a binary classifier to distinguish Iris Setosa from other flowers based on the input features.
 2. [Heart Disease](https://archive.ics.uci.edu/ml/datasets/heart+Disease) (13 features, 2 classes, 303 samples): After training, based on the input features, the *Opt-SGD* trained classifier should be able to identify the presence of heart disease in the patient.
 3. [Breast Cancer](https://www.kaggle.com/uciml/breast-cancer-wisconsin-data) (30 features, 2 classes, 569 samples): Here we train a binary classifier that can find the class names (malignant or benign) based on the input features.
-4. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/) (64 features, 10 classes, 1797 samples): Here, we extracted data fields for digit 6, with positive and negative samples. Then using *Opt-SGD*, we trained a binary classifier on MCUs, that distinguishes digit 6 from other digits, based on the input features. 
+4. MNIST Handwritten Digits: Here, we extracted data fields for digit 6, with positive and negative samples. Then using *Opt-SGD*, we trained a binary classifier on MCUs, that distinguishes digit 6 from other digits, based on the input features. 
 
 5. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/) (64 features, 10 classes, 1797 samples): This time in a multi-class setting that includes all 10 classes (digits 0 to 9). The onboard *Opt-OVO* trained multi-class classifier should distinguish digits, based on the input features.
 6. [Australian Sign Language signs](https://archive.ics.uci.edu/ml/datasets/Australian+Sign+Language+signs+(High+Quality)) (22 features, 95 classes, 6650 samples): Here, the class count is 50 since it contains data of 50 Auslan signs varying from *alive* to *more*. Then using *Opt-OVO*, we trained a classifier on MCUs, that distinguish Auslan signs based on the input features.
@@ -29,5 +29,6 @@ Using Arduino IDE, as required, we upload the *Opt-OVO* and *Opt-SGD* algorithm 
 4. [ATSAMD21G18 Adafruit METRO](https://www.adafruit.com/product/3505): ARM Cortex-M0+ @48 MHz, 256kB Flash, 32KB SRAM. 
 
 ## Opt-OVO and Opt-SGD Algorithm Performance Evaluation
+
 
 **Tip:** When first time using the *Opt-OVO* and *Opt-SGD* code for training ML models on MCUs, we recommend using better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
