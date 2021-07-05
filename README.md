@@ -43,7 +43,11 @@ The following analysis is made from the above table:
 
 1. Even for the high 64-dimensional Digits dataset, Opt-SGD achieves real-time unit inference, within a ms, even on the slowest MCU 4. 
 2. Although the training time on MCUs is higher than CPUs, Opt-SGD trained models produce classification accuracies close to those of Python scikit-learn trained models.
-3. The run-time variables generated during training need to be stored within the limited SRAM of MCUs. The boards we chose have only 20 kB to a max of 520 kB of SRAM. In scenarios with large volume and high dimensional data, the upper bound is imposed by MCUs memory constraints restricting model training. Since *Opt-SGD* was designed to be capable of incrementally training a model, even on small MCUs, with only KBs of memory, it can incrementally load n-samples of high-dimensional data (range from a few MB to hundreds of MBs), then perform the required model training. Hence, even on the lowest-spec MCU4, we were able to load both the Breast Cancer and Digits datasets incrementally and train in 13.8 ms and 14.1 ms respectively.
+3. The run-time variables generated during training need to be stored within the limited SRAM of MCUs. The boards we chose have only 20 kB to a max of 520 kB of SRAM. In scenarios with large volume and high dimensional data, the upper bound is imposed by MCUs memory constraints restricting model training. Since *Opt-SGD* was designed to be capable of incrementally training a model, even on small MCUs, with only KBs of memory, it can incrementally load n-samples of high-dimensional data (range from a few MB to hundreds of MBs), then perform the required model training. Hence, even on the lowest-spec MCU4, we were able to load both the Breast Cancer, Digits datasets incrementally and train in 13.8 ms and 14.1 ms respectively.
+
+#Opt-OVO
+
+We follow the same procedure explained earlier, starting from uploading the algorithm until loading the test set and evaluating the trained classifiers. Here, the difference is, we use the *Opt-OVO* algorithm, then use the multi-class data instead of binary. We illustrate the obtained training results in the below graph, which we use to analyze how the training time and accuracy vary w.r.t to the train set size. 
 
 ![alt text](https://github.com/bharathsudharsan/ML-MCU/blob/master/multiclass_training_results.png)
 
