@@ -63,3 +63,21 @@ The following analysis is made from the above Figure:
 Complete evaluation and results analysis available in ML-MCU the paper.
 
 **Tip:** When first time using the *Opt-OVO* and *Opt-SGD* code for training ML models on MCUs, we recommend using better resource boards like ESP32 and Adafruit Feather nrf52, then move on to using the tiny ones like Arduino Nano, Uno, etc.
+
+**If the code is useful, please consider citing ML-MCU and Edge2Train papers using the BibTex entry below.**
+
+```
+@inproceedings{sudharsan2020edge2train,
+  title={Edge2train: a framework to train machine learning models (svms) on resource-constrained iot edge devices},
+  author={Sudharsan, Bharath and Breslin, John G and Ali, Muhammad Intizar},
+  booktitle={Proceedings of the 10th International Conference on the Internet of Things (IoT’20)},
+  year={2020}
+  }
+  
+@article{sudharsan2021mlmcu,
+  title={ML-MCU: A Framework to Train ML Classifierson MCU-based IoT Edge Devices},
+  author={Sudharsan, Bharath and Breslin, John G and Ali, Muhammad Intizar},
+  journal={IEEE Internet of Things Journal},
+  year={2021}
+}
+```
