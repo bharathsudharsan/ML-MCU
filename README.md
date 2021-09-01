@@ -8,7 +8,7 @@ We provide *ML-MCU* (Machine Learning - Microcontroller Unit), a framework with 
 **Exciting finding** The *Opt-OVO* algorithm trained a multi-class classifier using a dataset of size 1250 and class count 50 on a $3 ESP32 board. It also performed unit inference on ESP32 for the same 50 class data sample in super real-time of 6.2 ms.
 
 
-## Datasets, MCU boards for Training and Inference on MCUs
+## Datasets, MCU Boards for Training and Inference on MCUs
 
 ### Datasets
 
@@ -20,7 +20,7 @@ We converted all the listed datasets into MCU executable *.h* files and placed t
 4. [MNIST Handwritten Digits](http://yann.lecun.com/exdb/mnist/) (64 features, 10 classes, 1797 samples): Here, we extracted data fields for digit 6, with positive and negative samples. Then using *Opt-SGD*, we trained a binary classifier on MCUs, that distinguishes digit 6 from other digits, based on the input features. 
 
 5. MNIST Handwritten Digits: This time in a multi-class setting that includes all 10 classes (digits 0 to 9), the onboard *Opt-OVO* trained multi-class classifier should distinguish digits, based on the input features.
-6. [Australian Sign Language signs](https://archive.ics.uci.edu/ml/datasets/Australian+Sign+Language+signs+(High+Quality)) (22 features, 95 classes, 6650 samples): Here, the class count is 50 since we extracted the files that contain data of 50 Auslan signs varying from *alive* to *more*. Then using *Opt-OVO*, we trained a classifier on MCUs, that distinguish Auslan signs based on the input features.
+6. [Australian Sign Language signs](https://archive.ics.uci.edu/ml/datasets/Australian+Sign+Language+signs+(High+Quality)) (22 features, 95 classes, 6650 samples): Here, the class count is 50 since we extracted the files that contain data of 50 Auslan signs varying from *alive* to *more*. Then using *Opt-OVO*, we trained classifiers on MCUs, that distinguish Auslan signs based on the input features.
 
 ### MCU Boards
 
