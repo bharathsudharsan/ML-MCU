@@ -4,6 +4,9 @@
 #define TRAIN_SAMPLES 40
 #define TEST_SAMPLES 10
 
+// Only sample data is given here to avoid overflow error on tiny Arduino boards. When want to load more rows, the code needs to be altered to take training input via serial port.
+// Other full TinyML datasets available at: https://github.com/bharathsudharsan/ML-MCU/tree/master/TinyML%20Datasets
+
 float X_train[TRAIN_SAMPLES][FEATURES_DIM] = {
 
 {-0.097816,-0.127761,-0.029051,0.537977,0.249162,0.508908,0.239445,0.039819,0.000000,0.007009,0.019041,0.046011,-0.106124,-0.006852,0.369149,0.381857,0.570995,0.343431,0.000000,0.000000,0.000000,0.133088},

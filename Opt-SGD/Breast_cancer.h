@@ -1,3 +1,4 @@
+// Other full TinyML datasets available at: https://github.com/bharathsudharsan/ML-MCU/tree/master/TinyML%20Datasets
 #pragma once
 #define FEATURES_DIM 30
 #define DATASET_SIZE 569

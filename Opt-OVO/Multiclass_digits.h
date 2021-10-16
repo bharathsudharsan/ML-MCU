@@ -1,4 +1,6 @@
-// 3 class digits dataset
+// Only sample data is given here to avoid overflow error on tiny Arduino boards. When want to load more rows, the code needs to be altered to take training input via serial port.
+// Other full TinyML datasets available at: https://github.com/bharathsudharsan/ML-MCU/tree/master/TinyML%20Datasets
+
 #pragma once
 #define FEATURES_DIM 64
 #define NUM_CLASSES 8
