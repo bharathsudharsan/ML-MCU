@@ -1,0 +1,2 @@
+train.h filter=lfs diff=lfs merge=lfs -text
+test.h filter=lfs diff=lfs merge=lfs -text
